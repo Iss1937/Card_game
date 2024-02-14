@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./SelectLevelPage.module.css";
+import { SelectGameMode } from "../../components/SelectGameMode/SelectGameMode";
 
 export function SelectLevelPage() {
   return (
@@ -23,6 +24,7 @@ export function SelectLevelPage() {
             </Link>
           </li>
         </ul>
+        <SelectGameMode />
       </div>
     </div>
   );

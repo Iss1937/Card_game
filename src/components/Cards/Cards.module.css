@@ -70,3 +70,16 @@
 
   margin-bottom: -12px;
 }
+
+.lossCounter{
+  width: 200px;
+  height: 30px;
+  background-color: #7ac100;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  font-family: StratosSkyeng;
+  margin-top: 30px;
+  padding: 10px;
+  line-height: 28px;
+}
