@@ -62,3 +62,15 @@
 .levelLink:visited {
   color: #0080c1;
 }
+
+.checkbox {
+  display: flex;
+  font-family: StratosSkyeng;
+  color: #004980;
+}
+.input {
+  width: 25px;
+  height: 25px;
+  margin-top: 6px;
+  margin-right: 20px;
+}

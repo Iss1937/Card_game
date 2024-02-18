@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom";
 import styles from "./SelectLevelPage.module.css";
-import { SelectGameMode } from "../../components/SelectGameMode/SelectGameMode";
+import { useSelector, useDispatch } from "react-redux";
+import { gameModeReducer } from "../../store/cardSlice";
 
 export function SelectLevelPage() {
+  const gameRegime = useSelector(state => state.cards.gameRegime);
+  const dispatch = useDispatch();
+
+  const gameModeReducered = () => {
+    dispatch(gameModeReducer());
+    console.log("click");
+    console.log(gameRegime);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
@@ -24,7 +34,10 @@ export function SelectLevelPage() {
             </Link>
           </li>
         </ul>
-        <SelectGameMode />
+        <div className={styles.checkbox}>
+          <input type="checkbox" className={styles.input} onChange={gameModeReducered}></input>
+          <h2>Играть до 3-х ошибок</h2>
+        </div>
       </div>
     </div>
   );

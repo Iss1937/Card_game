@@ -71,9 +71,8 @@
   margin-bottom: -12px;
 }
 
-.lossCounter{
+.mistake {
   width: 200px;
-  height: 30px;
   background-color: #7ac100;
   border-radius: 12px;
   color: #fff;
