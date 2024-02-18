@@ -4,15 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { gameModeReducer } from "../../store/cardSlice";
 
 export function SelectLevelPage() {
-  const gameRegime = useSelector(state => state.cards.gameRegime);
   const dispatch = useDispatch();
 
-  const gameModeReducered = () => {
-    dispatch(gameModeReducer());
+  const gameModeReducered = event => {
+    dispatch(gameModeReducer(event.target.value));
     console.log("click");
     console.log(gameRegime);
   };
-
+  const gameRegime = useSelector(state => state.cards.gameRegime);
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
@@ -35,7 +34,9 @@ export function SelectLevelPage() {
           </li>
         </ul>
         <div className={styles.checkbox}>
-          <input type="checkbox" className={styles.input} onChange={gameModeReducered}></input>
+          <label htmlFor="activateMode">
+            <input type="checkbox" className={styles.input} checked={gameRegime} onChange={gameModeReducered}></input>
+          </label>
           <h2>Играть до 3-х ошибок</h2>
         </div>
       </div>
