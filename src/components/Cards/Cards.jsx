@@ -5,8 +5,8 @@ import styles from "./Cards.module.css";
 import { EndGameModal } from "../../components/EndGameModal/EndGameModal";
 import { Button } from "../../components/Button/Button";
 import { Card } from "../../components/Card/Card";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { removeErrors, updateErrors } from "../../store/cardSlice";
 // Игра закончилась
 const STATUS_LOST = "STATUS_LOST";
 const STATUS_WON = "STATUS_WON";
@@ -42,13 +42,25 @@ function getTimerValue(startDate, endDate) {
  * previewSeconds - сколько секунд пользователь будет видеть все карты открытыми до начала игры
  */
 export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
-  const gameRegime = useSelector(state => state.cards.gameRegime);
+  const dispatch = useDispatch();
+
   // В cards лежит игровое поле - массив карт и их состояние открыта\закрыта
   const [cards, setCards] = useState([]);
   // Текущий статус игры
   const [status, setStatus] = useState(STATUS_PREVIEW);
+  // Статус режима игры до трех ошибок
+  const gameRegime = useSelector(state => state.cards.gameRegime);
+  // Количество ошибок в режиме игры до трех ошибок
+  const errors = useSelector(state => state.cards.errors);
   // Количество ошибок
   const [countOfMistakes, setCountOfMistakes] = useState(3);
+  // Если допущено 3 ошибки, игра заканчивается
+  useEffect(() => {
+    if (errors === 3) {
+      finishGame(STATUS_LOST);
+      dispatch(removeErrors());
+    }
+  });
 
   // Дата начала игры
   const [gameStartDate, setGameStartDate] = useState(null);
@@ -128,21 +140,25 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
       return false;
     });
 
-    if (gameRegime) {
-      console.log(openCardsWithoutPair);
-      const closingOfCards = () => {
-        openCardsWithoutPair = openCardsWithoutPair.map(card => {
-          card.open = false;
-        });
-      };
-      if (openCardsWithoutPair.length >= 2) {
-        // setCountOfMistakes(countOfMistakes + 1);
-        setTimeout(closingOfCards, 1000);
-      }
-      if (openCardsWithoutPair.length === 2) {
-        setCountOfMistakes(countOfMistakes - 1);
-      }
+    const playerLost = openCardsWithoutPair.length >= 2;
 
+    if (playerLost) {
+      dispatch(updateErrors());
+      if (gameRegime) {
+        console.log(openCardsWithoutPair);
+        const closingOfCards = () => {
+          openCardsWithoutPair = openCardsWithoutPair.map(card => {
+            card.open = false;
+          });
+        };
+        if (openCardsWithoutPair.length >= 2) {
+          // setCountOfMistakes(countOfMistakes + 1);
+          setTimeout(closingOfCards, 1000);
+        }
+        if (openCardsWithoutPair.length === 2) {
+          setCountOfMistakes(countOfMistakes - 1);
+        }
+      }
       const playerLost = openCardsWithoutPair.length >= 2 && countOfMistakes === 0;
       if (playerLost) {
         finishGame(STATUS_LOST);
