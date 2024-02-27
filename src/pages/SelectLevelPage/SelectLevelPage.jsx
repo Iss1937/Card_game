@@ -1,10 +1,22 @@
-import { Link } from "react-router-dom";
 import styles from "./SelectLevelPage.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { gameModeReducer } from "../../store/cardSlice";
+import { Button } from "../../components/Button/Button";
+import { setCurrentLevel } from "../../store/cardSlice";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export function SelectLevelPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [choosenLevel, setChoosenLevel] = useState(null);
+
+  const handleButtonClick = () => {
+    if (choosenLevel !== null) {
+      dispatch(setCurrentLevel({ choosenLevel }));
+      navigate(`/game/${choosenLevel}`);
+    }
+  };
 
   const gameModeReducered = event => {
     dispatch(gameModeReducer(event.target.value));
@@ -17,20 +29,14 @@ export function SelectLevelPage() {
       <div className={styles.modal}>
         <h1 className={styles.title}>Выбери сложность</h1>
         <ul className={styles.levels}>
-          <li className={styles.level}>
-            <Link className={styles.levelLink} to="/game/3">
-              1
-            </Link>
+          <li className={choosenLevel === 3 ? styles.choosenLevel : styles.level} onClick={() => setChoosenLevel(3)}>
+            1
           </li>
-          <li className={styles.level}>
-            <Link className={styles.levelLink} to="/game/6">
-              2
-            </Link>
+          <li className={choosenLevel === 6 ? styles.choosenLevel : styles.level} onClick={() => setChoosenLevel(6)}>
+            2
           </li>
-          <li className={styles.level}>
-            <Link className={styles.levelLink} to="/game/9">
-              3
-            </Link>
+          <li className={choosenLevel === 9 ? styles.choosenLevel : styles.level} onClick={() => setChoosenLevel(9)}>
+            3
           </li>
         </ul>
         <div className={styles.checkbox}>
@@ -39,6 +45,7 @@ export function SelectLevelPage() {
           </label>
           <h2>Играть до 3-х ошибок</h2>
         </div>
+        <Button onClick={handleButtonClick}>Играть</Button>
       </div>
     </div>
   );
