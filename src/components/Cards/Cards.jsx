@@ -49,7 +49,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   // Текущий статус игры
   const [status, setStatus] = useState(STATUS_PREVIEW);
   // Статус режима игры до трех ошибок
-  const gameRegime = useSelector(state => state.cards.gameRegime);
+  const gameModeReducer = useSelector(state => state.cards.gameModeReducer);
   // Количество ошибок в режиме игры до трех ошибок
   const errors = useSelector(state => state.cards.errors);
   // Количество ошибок
@@ -144,7 +144,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
 
     if (playerLost) {
       dispatch(updateErrors());
-      if (gameRegime) {
+      if (gameModeReducer) {
         console.log(openCardsWithoutPair);
         const closingOfCards = () => {
           openCardsWithoutPair = openCardsWithoutPair.map(card => {
@@ -221,7 +221,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
 
   return (
     <div className={styles.container}>
-      {gameRegime ? (
+      {gameModeReducer ? (
         <div className={styles.modal}>
           <h1 className={styles.mistake}>Осталось {countOfMistakes} ошибки</h1>
           {/* <p>{countOfMistakes}</p> */}

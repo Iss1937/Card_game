@@ -3,13 +3,17 @@ import { createSlice } from "@reduxjs/toolkit";
 const getGameSlice = createSlice({
   name: "cards",
   initialState: {
+    leaders: [],
     currentLevel: null,
-    gameRegime: false,
+    gameModeReducer: false,
     errors: 0,
   },
   reducers: {
+    setLeaders(state, action) {
+      state.leaders = action.payload.leaders;
+    },
     gameModeReducer(state) {
-      state.gameRegime = !state.gameRegime;
+      state.gameModeReducer = !state.gameModeReducer;
     },
     updateErrors(state) {
       state.errors = state.errors + 1;
@@ -23,6 +27,6 @@ const getGameSlice = createSlice({
   },
 });
 
-export const { gameModeReducer, updateErrors, removeErrors, setCurrentLevel } = getGameSlice.actions;
+export const { setLeaders, gameModeReducer, updateErrors, removeErrors, setCurrentLevel } = getGameSlice.actions;
 
 export default getGameSlice.reducer;

@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
 import styles from "./SelectLevelPage.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { gameModeReducer } from "../../store/cardSlice";
 import { Button } from "../../components/Button/Button";
 import { setCurrentLevel } from "../../store/cardSlice";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getLeaders } from "../../api";
+import { setLeaders } from "../../store/cardSlice";
 
 export function SelectLevelPage() {
   const navigate = useNavigate();
@@ -18,12 +20,16 @@ export function SelectLevelPage() {
     }
   };
 
+  useEffect(() => {
+    getLeaders().then(leaders => dispatch(setLeaders(leaders)));
+  }, [dispatch]);
+
   const gameModeReducered = event => {
     dispatch(gameModeReducer(event.target.value));
     console.log("click");
-    console.log(gameRegime);
+    console.log(gameModeReducer);
   };
-  const gameRegime = useSelector(state => state.cards.gameRegime);
+  const gameModeReducer = useSelector(state => state.cards.gameModeReducer);
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
@@ -41,11 +47,19 @@ export function SelectLevelPage() {
         </ul>
         <div className={styles.checkbox}>
           <label htmlFor="activateMode">
-            <input type="checkbox" className={styles.input} checked={gameRegime} onChange={gameModeReducered}></input>
+            <input
+              type="checkbox"
+              className={styles.input}
+              checked={gameModeReducer}
+              onChange={gameModeReducered}
+            ></input>
           </label>
           <h2>Играть до 3-х ошибок</h2>
         </div>
         <Button onClick={handleButtonClick}>Играть</Button>
+        <Link className={styles.leaderboardLink} to="/leaderboard">
+          Перейти к лидерборду
+        </Link>
       </div>
     </div>
   );
