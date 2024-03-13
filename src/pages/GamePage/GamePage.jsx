@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 
 import { Cards } from "../../components/Cards/Cards";
-import { ErrorCounter } from "../../components/ErrorCounter/ErrorCounter";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getLeaders } from "../../api";
@@ -20,7 +19,7 @@ export function GamePage() {
   return (
     <>
       <Cards pairsCount={parseInt(pairsCount, 10)} previewSeconds={5}></Cards>
-      {gameModeReducer && <ErrorCounter />}
+      {gameModeReducer}
     </>
   );
 }

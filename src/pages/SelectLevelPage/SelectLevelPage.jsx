@@ -6,7 +6,7 @@ import { setCurrentLevel } from "../../store/cardSlice";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getLeaders } from "../../api";
-import { setLeaders } from "../../store/cardSlice";
+import { setLeaders, setGameModeReducer } from "../../store/cardSlice";
 
 export function SelectLevelPage() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export function SelectLevelPage() {
   }, [dispatch]);
 
   const gameModeReducered = event => {
-    dispatch(gameModeReducer(event.target.value));
+    dispatch(setGameModeReducer(event.target.value));
     console.log("click");
     console.log(gameModeReducer);
   };

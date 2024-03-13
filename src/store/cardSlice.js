@@ -12,7 +12,7 @@ const getGameSlice = createSlice({
     setLeaders(state, action) {
       state.leaders = action.payload.leaders;
     },
-    gameModeReducer(state) {
+    setGameModeReducer(state) {
       state.gameModeReducer = !state.gameModeReducer;
     },
     updateErrors(state) {
@@ -27,6 +27,6 @@ const getGameSlice = createSlice({
   },
 });
 
-export const { setLeaders, gameModeReducer, updateErrors, removeErrors, setCurrentLevel } = getGameSlice.actions;
+export const { setLeaders, setGameModeReducer, updateErrors, removeErrors, setCurrentLevel } = getGameSlice.actions;
 
 export default getGameSlice.reducer;
