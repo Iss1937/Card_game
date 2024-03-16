@@ -16,7 +16,7 @@ export function addLeader({ username, time }) {
     body: JSON.stringify({ name: username, time: time }),
   }).then(response => {
     if (!response.ok) {
-      console.log("Что-то пошло не так");
+      alert("Вы не ввели имя пользователя");
     }
   });
 }

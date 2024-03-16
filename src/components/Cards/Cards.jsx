@@ -131,8 +131,9 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
     const openCards = nextCards.filter(card => card.open);
 
     // Ищем открытые карты, у которых нет пары среди других открытых
-    let openCardsWithoutPair = openCards.filter(card => {
+    const openCardsWithoutPair = openCards.filter(card => {
       const sameCards = openCards.filter(openCard => card.suit === openCard.suit && card.rank === openCard.rank);
+
       if (sameCards.length < 2) {
         return true;
       }
@@ -144,20 +145,24 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
 
     if (playerLost) {
       dispatch(updateErrors());
-      if (gameModeReducer) {
-        console.log(openCardsWithoutPair);
-        const closingOfCards = () => {
-          openCardsWithoutPair = openCardsWithoutPair.map(card => {
-            card.open = false;
-          });
-        };
-        if (openCardsWithoutPair.length >= 2) {
-          // setCountOfMistakes(countOfMistakes + 1);
-          setTimeout(closingOfCards, 1000);
-        }
-        if (openCardsWithoutPair.length === 2) {
-          setCountOfMistakes(countOfMistakes - 1);
-        }
+      if (!gameModeReducer) {
+        finishGame(STATUS_LOST);
+        dispatch(removeErrors());
+      } else {
+        const updatedCards = nextCards.map(card => {
+          if (openCardsWithoutPair.some(openCard => openCard.id === card.id)) {
+            if (card.open) {
+              setTimeout(() => {
+                setCards(prevCards => {
+                  const updated = prevCards.map(c => (c.id === card.id ? { ...c, open: false } : c));
+                  return updated;
+                });
+              }, 1000);
+            }
+          }
+          return card;
+        });
+        setCards(updatedCards);
       }
       const playerLost = openCardsWithoutPair.length >= 2 && countOfMistakes === 0;
       if (playerLost) {
@@ -167,9 +172,11 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
       }
 
       // ... игра продолжается
+      if (openCardsWithoutPair.length === 2) {
+        setCountOfMistakes(countOfMistakes - 1);
+      }
     } else {
       const playerLost = openCardsWithoutPair.length >= 2;
-
       // "Игрок проиграл", т.к на поле есть две открытые карты без пары
       if (playerLost) {
         finishGame(STATUS_LOST);

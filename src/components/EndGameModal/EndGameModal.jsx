@@ -33,11 +33,13 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   function addToLeaderboard({ username, time }) {
     buttonRef.disabled = true;
 
-    addLeader({ username, time }).then(() => {
-      buttonRef.disabled = false;
-      setIsFinishedAddingToLeaderboard(true);
-      setUsername("");
-    });
+    if (username.indexOf(" ") !== 0) {
+      addLeader({ username, time }).then(() => {
+        buttonRef.disabled = false;
+        setIsFinishedAddingToLeaderboard(true);
+        setUsername(username);
+      });
+    }
   }
 
   const title = isWon ? (isAddToLeaders() === true ? "Вы попали на Лидерборд!" : "Вы победили!") : "Вы проиграли!";
@@ -53,8 +55,11 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       {isAddToLeaders() === true && isFinishedAddingToLeaderboard === false && (
         <>
           <input
+            id="inputName"
             className={styles.username}
             type="text"
+            name="name"
+            pattern="^[^\s]+(\s.*)?$"
             placeholder="Пользователь"
             value={username}
             onChange={event => setUsername(event.target.value)}
