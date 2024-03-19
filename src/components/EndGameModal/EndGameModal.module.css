@@ -28,7 +28,7 @@
   margin-bottom: 28px;
 }
 
-.username {
+.username:required {
   width: 276px;
   height: 45px;
   background-color: #fff;

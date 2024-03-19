@@ -1,25 +1,30 @@
 import styles from "./LeaderBoard.module.css";
 import { Button } from "../../components/Button/Button";
-import { LeaderBoardItem } from "../../components/LeaderBoardItem/LeaderBoardItem";
+//import { LeaderBoardItem } from "../../components/LeaderBoardItem/LeaderBoardItem";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { getLeaders } from "../../api";
-import { useDispatch, useSelector } from "react-redux";
-import { setLeaders } from "../../store/cardSlice";
+//import { useDispatch, useSelector } from "react-redux";
+//import { setLeaders } from "../../store/cardSlice";
 
 export function LeaderBoard() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  let position = 1;
-  const leaders = useSelector(state => state.cards.leaders);
-
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [scores, setScores] = useState([]);
   useEffect(() => {
-    getLeaders().then(leaders => dispatch(setLeaders(leaders)));
-  }, [dispatch]);
-
-  const sortedLeaders = useMemo(() => {
-    return [...leaders].sort((a, b) => a.time - b.time);
-  }, [leaders]);
+    getLeaders()
+      .then(leaders => {
+        const sortedScores = [...leaders];
+        sortedScores.sort((a, b) => a.time - b.time);
+        setScores(sortedScores);
+      })
+      .catch(error => {
+        console.warn(error);
+      })
+      .finally(() => {
+        setIsLoaded(true);
+      });
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -28,18 +33,26 @@ export function LeaderBoard() {
           <h1 className={styles.heading}>Лидерборд</h1>
           <Button children={"Начать игру"} onClick={() => navigate("/")} />
         </div>
-        <LeaderBoardItem isTemplate={true} />
-        {sortedLeaders.map(leader => {
-          return (
-            <LeaderBoardItem
-              key={leader.id}
-              position={position++}
-              user={leader.name}
-              time={leader.time}
-              isTemplate={false}
-            />
-          );
-        })}
+        {isLoaded ? (
+          <>
+            <div className={styles.leaderboard_unit}>
+              <div className={styles.leaderboard_ttl}>Position</div>
+              <div className={styles.leaderboard_ttl}>User</div>
+              <div className={styles.leaderboard_ttl}>Time</div>
+            </div>
+            {scores.map((e, index) => (
+              <div key={e.id} className={styles.leaderboard_unit}>
+                <div className={styles.leaderboard_text}>{index + 1}</div>
+                <div className={styles.leaderboard_text}>{e.name}</div>
+                <div className={styles.leaderboard_text}>{e.time}</div>
+              </div>
+            ))}
+          </>
+        ) : (
+          <div>
+            <p className={styles.leaderboard_ttl}>Loading...</p>
+          </div>
+        )}
       </div>
     </div>
   );

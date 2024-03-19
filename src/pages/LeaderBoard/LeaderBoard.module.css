@@ -82,3 +82,41 @@
 .levelLink:visited {
   color: #0080c1;
 }
+
+.leaderboard_unit {
+  display: inline-grid;
+  grid-template-columns: [line1] 20% [line2] 35% [line3] 25% [line4] 20%;
+
+  border-radius: 12px;
+  background: #ffffff;
+
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: 944px;
+  height: 64px;
+  top: 142px;
+  left: 40px;
+}
+.leaderboard_ttl {
+  font-family: StratosSkyeng;
+  color: #999999;
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.leaderboard_text {
+  font-family: StratosSkyeng;
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: 0em;
+  text-align: left;
+}
