@@ -1,8 +1,8 @@
-const host = "https://wedev-api.sky.pro/api/leaderboard";
+const API_URL = "https://wedev-api.sky.pro/api/v2/leaderboard";
 
-export async function getLeaders() {
+export async function getScores() {
   try {
-    const response = await fetch(host);
+    const response = await fetch(API_URL);
     if (!response.ok) {
       if (response.status === 401) {
         throw new Error("No authorization");
@@ -18,15 +18,27 @@ export async function getLeaders() {
   }
 }
 
-export async function addLeader({ name, time }) {
-  const response = await fetch(host, {
-    method: "POST",
-    body: JSON.stringify({ name, time }),
-  });
-  if (response.status === 200) {
-    const data = await response.json();
-    return data;
-  } else {
-    throw new Error("Не удалось загрузить список лидеров, попробуйте снова");
+export async function addScore({ name, time, achievements }) {
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        time,
+        achievements,
+      }),
+    });
+    if (!response.ok) {
+      if (response.status === 400) {
+        throw new Error("Something went wrong");
+      } else {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    }
+    return response.json();
+  } catch (error) {
+    alert("Не удалось загрузить список лидеров, попробуйте снова");
+    console.warn(error);
+    throw error;
   }
 }

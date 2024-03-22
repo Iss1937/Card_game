@@ -1,86 +1,29 @@
 .container {
+  width: 100%;
+  min-height: 100%;
   display: flex;
-  justify-content: center;
-}
-
-.content {
-  width: 944px;
-  padding-top: 52px;
-  padding-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.top {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 25px;
-}
-
-.heading {
-  font-family: "Roboto", sans-serif;
-  color: #fff;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 32px;
-}
-
-.modal {
-  width: 480px;
-  height: 459px;
-  border-radius: 12px;
-  background: #c2f5ff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-}
-
-.title {
-  color: #004980;
-  text-align: center;
-  font-variant-numeric: lining-nums proportional-nums;
-  font-family: StratosSkyeng;
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 48px;
-}
-
-.levels {
-  display: flex;
-  flex-direction: row;
-  gap: 26px;
-  margin-top: 48px;
-  margin-bottom: 28px;
-}
-
-.level {
-  display: flex;
-  width: 97px;
-  height: 98px;
+  flex-wrap: wrap;
   flex-direction: column;
-  justify-content: center;
-  flex-shrink: 0;
-
-  border-radius: 12px;
-  background: #fff;
+  margin-top: 40px;
 }
 
-.levelLink {
-  color: #0080c1;
-  text-align: center;
+.header {
+  width: 944px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+.headerh1 {
   font-family: StratosSkyeng;
-  font-size: 64px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 72px;
-  text-decoration: none;
+  color: #ffffff;
 }
-
-.levelLink:visited {
-  color: #0080c1;
+.headerh4 {
+  font-family: StratosSkyeng;
+  color: #ffffff;
 }
 
 .leaderboard_unit {
@@ -119,4 +62,139 @@
   line-height: 32px;
   letter-spacing: 0em;
   text-align: left;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  height: 90px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Adjust this value to control how far below the element the tooltip appears */
+  left: 50%;
+  margin-left: -90px; /* Half of the tooltip width to center it */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal {
+  width: 480px;
+  height: 459px;
+  border-radius: 12px;
+  background: #c2f5ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.achievements {
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.block_achievements {
+  position: relative;
+}
+
+.puzzle {
+  background-image: url(./images/puzzle.svg);
+}
+
+.puzzleGray {
+  background-image: url(./images/puzzleGray.svg);
+}
+
+.vision {
+  background-image: url(./images/vision.svg);
+}
+
+.visionGray {
+  background-image: url(./images/visionGray.svg);
+}
+
+.puzzle,
+.puzzleGray,
+.vision,
+.visionGray {
+  height: 32px;
+  width: 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  cursor: default;
+  z-index: 0;
+  border: 0;
+}
+
+[hint1],
+[hint2] {
+  position: relative;
+  cursor: hint;
+}
+
+[hint1]::after {
+  opacity: 0;
+  width: 172px;
+  height: 48px;
+  background-image: url(./images/diffBubble.svg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  content: attr(hint1);
+  z-index: 1;
+  position: absolute;
+  top: -80px;
+  text-align: center;
+  transition: opacity 0.2s;
+
+  padding: 15px 15px;
+  border-radius: 12px;
+  color: rgb(0, 73, 128);
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+}
+
+[hint2]::after {
+  opacity: 0;
+  width: 134px;
+  height: 48px;
+  background-image: url(./images/nosupBubble.svg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  content: attr(hint2);
+  z-index: 1;
+  position: absolute;
+  top: -80px;
+  text-align: center;
+  transition: opacity 0.2s;
+
+  padding: 15px 20px;
+  border-radius: 12px;
+  color: rgb(0, 73, 128);
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+}
+
+[hint1]:hover::after,
+[hint2]:hover::after {
+  opacity: 1;
 }

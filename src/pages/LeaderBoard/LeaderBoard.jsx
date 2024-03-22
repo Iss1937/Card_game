@@ -1,20 +1,16 @@
-import styles from "./LeaderBoard.module.css";
-import { Button } from "../../components/Button/Button";
-//import { LeaderBoardItem } from "../../components/LeaderBoardItem/LeaderBoardItem";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getLeaders } from "../../api";
-//import { useDispatch, useSelector } from "react-redux";
-//import { setLeaders } from "../../store/cardSlice";
+import { Link } from "react-router-dom";
+import { Button } from "../../components/Button/Button";
+import { getScores } from "../../api";
+import styles from "./LeaderBoard.module.css";
 
 export function LeaderBoard() {
-  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false);
   const [scores, setScores] = useState([]);
   useEffect(() => {
-    getLeaders()
-      .then(leaders => {
-        const sortedScores = [...leaders];
+    getScores()
+      .then(data => {
+        const sortedScores = [...data];
         sortedScores.sort((a, b) => a.time - b.time);
         setScores(sortedScores);
       })
@@ -28,32 +24,54 @@ export function LeaderBoard() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.top}>
-          <h1 className={styles.heading}>Лидерборд</h1>
-          <Button children={"Начать игру"} onClick={() => navigate("/")} />
-        </div>
-        {isLoaded ? (
-          <>
-            <div className={styles.leaderboard_unit}>
-              <div className={styles.leaderboard_ttl}>Position</div>
-              <div className={styles.leaderboard_ttl}>User</div>
-              <div className={styles.leaderboard_ttl}>Time</div>
-            </div>
-            {scores.map((e, index) => (
-              <div key={e.id} className={styles.leaderboard_unit}>
-                <div className={styles.leaderboard_text}>{index + 1}</div>
-                <div className={styles.leaderboard_text}>{e.name}</div>
-                <div className={styles.leaderboard_text}>{e.time}</div>
-              </div>
-            ))}
-          </>
-        ) : (
-          <div>
-            <p className={styles.leaderboard_ttl}>Loading...</p>
-          </div>
-        )}
+      <div className={styles.header}>
+        <h1 className={styles.headerh1}>Лидерборд</h1>
+        <h4 className={styles.headerh4}>Лучшие результаты в сложном режиме</h4>
+        <Link to="/">
+          <Button>Играть</Button>
+        </Link>
       </div>
+      {isLoaded ? (
+        <>
+          <div className={styles.leaderboard_unit}>
+            <div className={styles.leaderboard_ttl}>Позиция</div>
+            <div className={styles.leaderboard_ttl}>Пользователь</div>
+            <div className={styles.leaderboard_ttl}>Достижения</div>
+            <div className={styles.leaderboard_ttl}>Время</div>
+          </div>
+          {scores.map((e, index) => (
+            <div key={e.id} className={styles.leaderboard_unit}>
+              <div className={styles.leaderboard_text}>{index + 1}</div>
+              <div className={styles.leaderboard_text}>{e.name}</div>
+              <td className={styles.achievements}>
+                {e.achievements && (
+                  <div className={styles.block_achievements}>
+                    {e.achievements.includes(1) ? (
+                      <button className={styles.puzzle} hint1="Игра пройдена в сложном режиме"></button>
+                    ) : (
+                      <button className={styles.puzzleGray}></button>
+                    )}
+                  </div>
+                )}
+                {e.achievements && (
+                  <div className={styles.block_achievements}>
+                    {e.achievements.includes(2) ? (
+                      <button className={styles.vision} hint2="Игра пройдена без супер-сил"></button>
+                    ) : (
+                      <button className={styles.visionGray}></button>
+                    )}
+                  </div>
+                )}
+              </td>
+              <div className={styles.leaderboard_text}>{e.time}</div>
+            </div>
+          ))}
+        </>
+      ) : (
+        <div>
+          <p className={styles.leaderboard_ttl}>Loading...</p>
+        </div>
+      )}
     </div>
   );
 }
