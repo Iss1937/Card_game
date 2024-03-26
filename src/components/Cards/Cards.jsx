@@ -107,38 +107,27 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
 
   // Alohomora: opens one correct pair of cards or a pair for one opened card
   const alohomora = () => {
+    if (isAlohomora === 2) {
+      return;
+    }
     if (isXRayActive) {
       return;
     }
-    const cardsNotGuessed = cards.filter(cards => !cards.guessed);
-    let firstCard = cardsNotGuessed.find(card => card.open);
-    let secondCard;
-
-    if (firstCard) {
-      secondCard = cards.find(
-        card => card.rank === firstCard.rank && card.suit === firstCard.suit && card.id !== firstCard.id,
-      );
-    } else {
-      let randomIndex = Math.floor(cardsNotGuessed.length * Math.random());
-      firstCard = cardsNotGuessed[randomIndex];
-      secondCard = cardsNotGuessed.find(card => card.rank === firstCard.rank && card.suit === firstCard.suit);
-    }
-
-    if (firstCard && secondCard) {
-      const nextCards = cards.map(card => {
-        if (secondCard.id === card.id || firstCard.id === card.id) {
-          return {
-            ...card,
-            open: true,
-            guessed: true,
-          };
+    const closedCards = cards.filter(card => !card.open);
+    const randomCard = closedCards[Math.floor(Math.random() * closedCards.length)];
+    const pairsCard = closedCards.filter(
+      closedCard =>
+        closedCard.suit === randomCard.suit && closedCard.rank === randomCard.rank && randomCard.id !== closedCard.id,
+    );
+    setCards(
+      cards.map(card => {
+        if (card === randomCard || card === pairsCard[0]) {
+          return { ...card, open: true };
+        } else {
+          return card;
         }
-        return card;
-      });
-
-      setCards(nextCards);
-      setIsAlohomora(true);
-    }
+      }),
+    );
   };
   // superpower logics end
 

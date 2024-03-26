@@ -68,8 +68,13 @@ export function SelectLevelPage() {
 
         <div className={styles.checkbox}>
           <label htmlFor="activateMode">
-            <input type="checkbox" checked={isEnabled} onChange={() => setIsEnabled(!isEnabled)} />
-            <span>Играть до 3-х ошибок</span>
+            <input
+              type="checkbox"
+              className={styles.input}
+              checked={isEnabled}
+              onChange={() => setIsEnabled(!isEnabled)}
+            />
+            <span className={styles.titleCheckbox}>Играть до 3-х ошибок</span>
           </label>
         </div>
 

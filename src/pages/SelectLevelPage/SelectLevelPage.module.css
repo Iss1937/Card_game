@@ -116,3 +116,17 @@
   color: #004980;
   margin-bottom: 30px;
 }
+
+.input {
+  width: 25px;
+  height: 25px;
+  margin-right: 12px;
+}
+
+.titleCheckbox {
+  color: #000;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 32px;
+}
