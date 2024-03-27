@@ -35,7 +35,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       });
   };
 
-  const title = isWon ? (currentDifficulty === "9" ? "You are on the leaderboard!" : "You won!") : "You lose!";
+  const title = isWon ? (currentDifficulty === "9" ? "Вы попали на лидерборд!" : "Вы выиграли!") : "Вы проиграли!";
 
   const imgSrc = isWon ? celebrationImageUrl : deadImageUrl;
 
