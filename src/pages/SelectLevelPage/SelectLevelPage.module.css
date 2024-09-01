@@ -27,6 +27,31 @@
   font-weight: 400;
   line-height: 48px;
 }
+.title_leaderboard {
+  color: #004980;
+  text-align: center;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-family: StratosSkyeng;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 48px;
+}
+
+.active {
+  margin-top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: #7ac100;
+}
+.inactive {
+  margin-top: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: #c13000;
+}
 
 .levels {
   display: flex;
@@ -43,9 +68,17 @@
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
-
   border-radius: 12px;
   background: #fff;
+  overflow: hidden; /* Ensure the button doesn't extend beyond the li element */
+}
+.level button {
+  width: 100%; /* Button takes up the entire li element */
+  height: 100%; /* Button takes up the entire li element */
+  padding: 0; /* Remove padding to ensure the button fills the entire space */
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 .levelLink {
@@ -57,8 +90,43 @@
   font-weight: 400;
   line-height: 72px;
   text-decoration: none;
+  background: #fff;
+  border: none;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
-
+.levelLink:hover,
+.levelLink:active,
+.levelLink:focus {
+  background-color: #0080c1; /* Background color when hovered or active */
+  color: #fff; /* Text color when hovered or active */
+}
 .levelLink:visited {
   color: #0080c1;
+}
+
+._selected_difficulty {
+  opacity: 1 !important;
+}
+
+.checkbox {
+  display: flex;
+  font-family: StratosSkyeng;
+  color: #004980;
+  margin-bottom: 30px;
+}
+
+.input {
+  width: 25px;
+  height: 25px;
+  margin-right: 12px;
+}
+
+.titleCheckbox {
+  color: #000;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 32px;
 }
